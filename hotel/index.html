@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roamers</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <i class="fas fa-hotel"></i>
+          <h1>Roamers</h1>
+        </div>
+        <div class="nav-links">
+          <a href="#" class="active">Home</a>
+          <a href="#">Hotels</a>
+          <a href="#">Deals</a>
+          <a href="#">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Find Your Perfect Stay</h1>
+          <p>Discover amazing hotels at the best prices</p>
+        </div>
+
+        <div class="search-container">
+          <div class="search-box">
+            <div class="search-input">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Search destinations, hotels..." />
+            </div>
+
+            <div class="date-inputs">
+              <div class="date-field">
+                <i class="far fa-calendar"></i>
+                <input type="date" id="check-in" />
+                <label for="check-in">Check In</label>
+              </div>
+              <div class="date-field">
+                <i class="far fa-calendar"></i>
+                <input type="date" id="check-out" />
+                <label for="check-out">Check Out</label>
+              </div>
+            </div>
+
+            <div class="guests-input">
+              <i class="fas fa-user"></i>
+              <div class="guests-dropdown">
+                <button id="guests-toggle">
+                  <span id="guests-summary">2 Adults, 0 Children</span>
+                  <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="guests-options" id="guests-options">
+                  <div class="guest-option">
+                    <span>Adults</span>
+                    <div class="guest-counter">
+                      <button
+                        class="counter-btn"
+                        data-type="adult"
+                        data-action="decrease"
+                      >
+                        -
+                      </button>
+                      <span id="adult-count">2</span>
+                      <button
+                        class="counter-btn"
+                        data-type="adult"
+                        data-action="increase"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                  <div class="guest-option">
+                    <span>Children</span>
+                    <div class="guest-counter">
+                      <button
+                        class="counter-btn"
+                        data-type="child"
+                        data-action="decrease"
+                      >
+                        -
+                      </button>
+                      <span id="child-count">0</span>
+                      <button
+                        class="counter-btn"
+                        data-type="child"
+                        data-action="increase"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="search-btn">Search Hotels</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="featured-hotels">
+        <h2>Featured Hotels</h2>
+        <div class="hotel-grid" id="hotel-grid">
+          <!-- Hotels will be populated by JavaScript -->
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>LuxStay</h3>
+          <p>Find your perfect stay at the best prices.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <a href="#">About Us</a>
+          <a href="#">Contact</a>
+          <a href="#">Terms & Conditions</a>
+          <a href="#">Privacy Policy</a>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p>Email: info@luxstay.com</p>
+          <p>Phone: +1 234 567 890</p>
+        </div>
+        <div class="footer-section">
+          <h3>Follow Us</h3>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 LuxStay. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

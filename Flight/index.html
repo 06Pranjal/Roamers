@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roamers</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="min-h-screen">
+      <!-- Hero Section with Search -->
+      <div class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+          <h1>Find Your Perfect Flight</h1>
+
+          <!-- Search Form -->
+          <div class="search-form">
+            <form id="flightSearch">
+              <div class="form-grid">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="icon">📍</span>
+                    <input type="text" placeholder="From" id="from" required />
+                  </div>
+                  <div class="input-group">
+                    <span class="icon">📍</span>
+                    <input type="text" placeholder="To" id="to" required />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="icon">📅</span>
+                    <input type="date" id="departDate" required />
+                  </div>
+                  <div class="input-group">
+                    <span class="icon">📅</span>
+                    <input type="date" id="returnDate" required />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="icon">👥</span>
+                    <select id="passengers" required>
+                      <option value="1">1 Passenger</option>
+                      <option value="2">2 Passengers</option>
+                      <option value="3">3 Passengers</option>
+                      <option value="4">4 Passengers</option>
+                      <option value="5">5 Passengers</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="search-button">
+                    <span class="icon">🔍</span>
+                    Search Flights
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Content -->
+      <div class="container dashboard">
+        <!-- Popular Destinations -->
+        <section class="destinations">
+          <h2>Popular Destinations</h2>
+          <div class="destination-grid">
+            <div class="destination-card">
+              <img
+                src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&auto=format&fit=crop"
+                alt="Paris"
+              />
+              <div class="destination-overlay"></div>
+              <h3>Paris</h3>
+            </div>
+            <div class="destination-card">
+              <img
+                src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&auto=format&fit=crop"
+                alt="Tokyo"
+              />
+              <div class="destination-overlay"></div>
+              <h3>Tokyo</h3>
+            </div>
+            <div class="destination-card">
+              <img
+                src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&auto=format&fit=crop"
+                alt="New York"
+              />
+              <div class="destination-overlay"></div>
+              <h3>New York</h3>
+            </div>
+          </div>
+        </section>
+
+        <!-- Available Flights -->
+        <section class="flights">
+          <h2>Available Flights</h2>
+          <div id="flightsList" class="flights-list">
+            <!-- Flights will be populated by JavaScript -->
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
