@@ -1,179 +1,207 @@
-// Hotel data
-const hotels = [
-    {
-        name: "Grand Luxury Resort & Spa",
-        location: "Maldives",
-        rating: 4.8,
-        price: 599,
-        image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80"
-    },
-    {
-        name: "Mountain View Lodge",
-        location: "Swiss Alps",
-        rating: 4.7,
-        price: 399,
-        image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80"
-    },
-    {
-        name: "Coastal Paradise Hotel",
-        location: "Bali, Indonesia",
-        rating: 4.9,
-        price: 499,
-        image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&q=80"
-    },
-    {
-        name: "Urban Boutique Hotel",
-        location: "New York City",
-        rating: 4.6,
-        price: 299,
-        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80"
-    },
-    {
-        name: "Desert Oasis Resort",
-        location: "Dubai, UAE",
-        rating: 4.8,
-        price: 699,
-        image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80"
-    },
-    {
-        name: "Tropical Beach Resort",
-        location: "Cancun, Mexico",
-        rating: 4.7,
-        price: 449,
-        image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80"
-    }
+// Room data
+const rooms = [
+  {
+    id: "1",
+    name: "Deluxe Ocean View",
+    description:
+      "Spacious room with breathtaking ocean views and modern amenities",
+    price: 299,
+    capacity: 2,
+    imageUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b",
+    amenities: [
+      "King Bed",
+      "Ocean View",
+      "Free Wi-Fi",
+      "Mini Bar",
+      "Room Service",
+    ],
+  },
+  {
+    id: "2",
+    name: "Executive Suite",
+    description:
+      "Luxurious suite with separate living area and premium facilities",
+    price: 499,
+    capacity: 4,
+    imageUrl: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304",
+    amenities: [
+      "2 King Beds",
+      "City View",
+      "Free Wi-Fi",
+      "Kitchenette",
+      "Spa Access",
+    ],
+  },
+  {
+    id: "3",
+    name: "Family Room",
+    description:
+      "Perfect for families, featuring multiple beds and extra space",
+    price: 399,
+    capacity: 5,
+    imageUrl: "https://images.unsplash.com/photo-1566665797739-1674de7a421a",
+    amenities: [
+      "2 Queen Beds",
+      "Garden View",
+      "Free Wi-Fi",
+      "Kids Area",
+      "Breakfast",
+    ],
+  },
 ];
 
-// DOM Elements
-const guestsToggle = document.getElementById('guests-toggle');
-const guestsOptions = document.getElementById('guests-options');
-const guestsSummary = document.getElementById('guests-summary');
-const adultCount = document.getElementById('adult-count');
-const childCount = document.getElementById('child-count');
-const counterBtns = document.querySelectorAll('.counter-btn');
-const hotelGrid = document.getElementById('hotel-grid');
-const searchInput = document.querySelector('.search-input input');
+// Bookings array to store all bookings
+let bookings = [];
 
-// Initialize guests count
-let guests = {
-    adult: 2,
-    child: 0
-};
+// Current selected room for booking
+let selectedRoom = null;
 
-// Toggle guests dropdown
-guestsToggle.addEventListener('click', () => {
-    guestsOptions.classList.toggle('active');
+// Initialize the application
+document.addEventListener("DOMContentLoaded", () => {
+  renderRooms();
+  setupEventListeners();
 });
 
-// Close guests dropdown when clicking outside
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.guests-dropdown')) {
-        guestsOptions.classList.remove('active');
-    }
-});
-
-// Handle guest counter buttons
-counterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const type = btn.dataset.type;
-        const action = btn.dataset.action;
-        
-        if (action === 'increase') {
-            if (guests[type] < 10) {
-                guests[type]++;
-            }
-        } else {
-            if (type === 'adult' && guests[type] > 1) {
-                guests[type]--;
-            } else if (type === 'child' && guests[type] > 0) {
-                guests[type]--;
-            }
-        }
-        
-        // Update counter display
-        if (type === 'adult') {
-            adultCount.textContent = guests.adult;
-        } else {
-            childCount.textContent = guests.child;
-        }
-        
-        // Update summary
-        guestsSummary.textContent = `${guests.adult} Adults, ${guests.child} Children`;
-    });
-});
-
-// Create hotel cards
-function createHotelCard(hotel) {
-    return `
-        <div class="hotel-card">
-            <img src="${hotel.image}" alt="${hotel.name}" class="hotel-image">
-            <div class="hotel-info">
-                <h3 class="hotel-name">${hotel.name}</h3>
-                <p class="hotel-location">
-                    <i class="fas fa-map-marker-alt"></i>
-                    ${hotel.location}
-                </p>
-                <div class="hotel-rating">
-                    <div class="rating-stars">
-                        ${createStarRating(hotel.rating)}
-                    </div>
-                    <span>${hotel.rating}</span>
-                </div>
-                <p class="hotel-price">$${hotel.price}<span style="font-size: 1rem; color: #6b7280;"> / night</span></p>
-                <button class="book-now">Book Now</button>
+// Render all rooms
+function renderRooms() {
+  const roomsGrid = document.getElementById("roomsGrid");
+  roomsGrid.innerHTML = rooms
+    .map(
+      (room) => `
+      <div class="room-card">
+        <img src="${room.imageUrl}" alt="${room.name}">
+        <div class="room-card-content">
+          <h3>${room.name}</h3>
+          <p class="room-description">${room.description}</p>
+          <div class="room-capacity">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Up to ${room.capacity} guests</span>
+          </div>
+          <div class="amenities">
+            <h4>Amenities:</h4>
+            <div class="amenities-list">
+              ${room.amenities
+                .map(
+                  (amenity) => `
+                <span class="amenity-tag">${amenity}</span>
+              `
+                )
+                .join("")}
             </div>
+          </div>
+          <div class="room-price">
+            <div class="price">
+              $${room.price}<span>/night</span>
+            </div>
+            <button class="btn btn-primary" onclick="openBookingModal('${
+              room.id
+            }')">
+              Book Now
+            </button>
+          </div>
         </div>
+      </div>
+    `
+    )
+    .join("");
+}
+
+// Setup event listeners
+function setupEventListeners() {
+  const bookingForm = document.getElementById("bookingForm");
+  bookingForm.addEventListener("submit", handleBookingSubmit);
+
+  // Set minimum date for check-in to today
+  const checkInInput = document.getElementById("checkIn");
+  const today = new Date().toISOString().split("T")[0];
+  checkInInput.min = today;
+
+  // Update check-out minimum date when check-in changes
+  checkInInput.addEventListener("change", () => {
+    const checkOutInput = document.getElementById("checkOut");
+    checkOutInput.min = checkInInput.value;
+    if (checkOutInput.value && checkOutInput.value < checkInInput.value) {
+      checkOutInput.value = checkInInput.value;
+    }
+  });
+}
+
+// Open booking modal
+function openBookingModal(roomId) {
+  selectedRoom = rooms.find((room) => room.id === roomId);
+  const modal = document.getElementById("bookingModal");
+  modal.classList.add("active");
+
+  // Reset form
+  document.getElementById("bookingForm").reset();
+
+  // Update guests input max value
+  document.getElementById("guests").max = selectedRoom.capacity;
+}
+
+// Close booking modal
+function closeBookingModal() {
+  const modal = document.getElementById("bookingModal");
+  modal.classList.remove("active");
+  selectedRoom = null;
+}
+
+// Handle booking form submission
+function handleBookingSubmit(e) {
+  e.preventDefault();
+
+  if (!selectedRoom) return;
+
+  const formData = {
+    guestName: document.getElementById("guestName").value,
+    email: document.getElementById("email").value,
+    checkIn: document.getElementById("checkIn").value,
+    checkOut: document.getElementById("checkOut").value,
+    guests: parseInt(document.getElementById("guests").value),
+  };
+
+  const booking = {
+    id: Math.random().toString(36).substr(2, 9),
+    roomId: selectedRoom.id,
+    ...formData,
+    totalPrice: calculateTotalPrice(
+      formData.checkIn,
+      formData.checkOut,
+      selectedRoom.price
+    ),
+  };
+
+  bookings.push(booking);
+  closeBookingModal();
+  showBookingConfirmation(booking);
+}
+
+// Calculate total price for the stay
+function calculateTotalPrice(checkIn, checkOut, pricePerNight) {
+  const start = new Date(checkIn);
+  const end = new Date(checkOut);
+  const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+  return nights * pricePerNight;
+}
+
+// Show booking confirmation
+function showBookingConfirmation(booking) {
+  const room = rooms.find((r) => r.id === booking.roomId);
+  const message = `
+      Booking Confirmed!
+      
+      Room: ${room.name}
+      Check-in: ${booking.checkIn}
+      Check-out: ${booking.checkOut}
+      Guests: ${booking.guests}
+      Total Price: $${booking.totalPrice}
+      
+      A confirmation email has been sent to ${booking.email}.
     `;
+  alert(message);
 }
-
-// Create star rating
-function createStarRating(rating) {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    let stars = '';
-    
-    for (let i = 0; i < fullStars; i++) {
-        stars += '<i class="fas fa-star"></i>';
-    }
-    
-    if (hasHalfStar) {
-        stars += '<i class="fas fa-star-half-alt"></i>';
-    }
-    
-    return stars;
-}
-
-// Populate hotel grid
-function populateHotels(hotelList) {
-    hotelGrid.innerHTML = hotelList.map(hotel => createHotelCard(hotel)).join('');
-}
-
-// Initial population
-populateHotels(hotels);
-
-// Search functionality
-searchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    const filteredHotels = hotels.filter(hotel => 
-        hotel.name.toLowerCase().includes(searchTerm) ||
-        hotel.location.toLowerCase().includes(searchTerm)
-    );
-    populateHotels(filteredHotels);
-});
-
-// Set minimum date for check-in and check-out
-const today = new Date().toISOString().split('T')[0];
-const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-const tomorrowStr = tomorrow.toISOString().split('T')[0];
-
-document.getElementById('check-in').min = today;
-document.getElementById('check-out').min = tomorrowStr;
-
-// Update check-out minimum date when check-in date changes
-document.getElementById('check-in').addEventListener('change', (e) => {
-    const checkInDate = new Date(e.target.value);
-    const minCheckOutDate = new Date(checkInDate);
-    minCheckOutDate.setDate(checkInDate.getDate() + 1);
-    document.getElementById('check-out').min = minCheckOutDate.toISOString().split('T')[0];
-});
