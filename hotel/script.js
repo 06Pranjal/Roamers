@@ -205,3 +205,7 @@ function showBookingConfirmation(booking) {
     `;
   alert(message);
 }
+
+function redirect() {
+  window.location.href = "/Payment/paymentPage.html"; // Change to your target page
+}
